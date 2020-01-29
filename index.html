@@ -1,0 +1,217 @@
+<Doctype HTML>
+
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <meta charset="utf-8">
+    </head>
+
+    
+    <style>
+    [v-cloak]{
+        display: none;
+        opacity: 0;
+    }    
+
+    .inputField{
+        border-color:transparent;
+        border-bottom: 1px solid #777;
+        font-size: 2em;
+    }
+
+    .btnStep{
+        border-radius: 50px;
+    }
+
+    .text-gray{
+        color: gray;
+    }
+
+    .text-blue{
+        color:navy;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+
+    .idCard{
+        border-radius: 25px;
+    }
+
+    </style>
+<div id="App" style=" background-color: #222;">
+    <div class="mb-5 container-fluid d-flex justify-content-center" style="flex-direction: column;">
+        
+        <!-- Card start -->
+        <div class="row d-flex justify-content-center">
+                <div class="col-sm-12 col-md-12 col-lg-5 col-12 card align-self-center bg-dark p-5"
+                 style="height: 100vh;">
+                    
+                    <div class="card-header border-0 bg-dark p-4 text-center">
+                        <img class="img-fluid" src="https://upload.wikimedia.org/wikipedia/en/c/ce/Google_account_icon.svg" width="100" height="100" />
+                        <h3 class="text-white mt-2 display-3">Create Account</h3>
+                    </div>
+
+                    <div class="card-body border-0 bg-dark px-5">
+                        
+                        <form class="form text-white">
+                            <div>
+
+                                <input type="text" class="form-control bg-dark text-white inputField input-xxlarge" placeholder="First Name:" v-model="firstname"><br><br>
+                                <input type="text" class="form-control bg-dark text-white inputField" placeholder="Last Name:" v-model="lastname"><br><br>
+                                <br>
+                                <label for="file" class="text-gray"><h2>&nbsp;Select an image</h2></label><br>
+                                <input type="file" name="file" id="picture" name="picture" />
+                                <!-- <input type="radio" name="sex" class="radio bg-dark text-white inputField" value="Male">
+                                &nbsp;<span class="radio">Male</span>
+                                &nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="sex" class="radio bg-dark text-white inputField" value="Female">
+                                &nbsp;<span class="radio">Female</span class="radio"> -->
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                    <div class="card-footer bg-dark border-0 ">
+                        
+
+                        <div class="pt-5 text-center">
+                            <button class="btn btn-lg btn-block btn-primary btnStep" @click.prevent="insertStudent()">Submit</button>
+                            <!-- <br>
+                            <span class="text-success display-4">•</span>
+                            <span class="text-gray display-4">•</span>
+                            <span class="text-gray display-4">•</span>
+                            <span class="text-gray display-4">•</span> -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- Card end -->
+
+    </div>
+    
+
+    <div class="container-fluid d-flex justify-content-center bg-dark px-0 py-2" style="flex-direction: column;" v-if="numberStudent>0">   
+        
+        <div class="p-3 sticky-top bg-dark">
+            <h1 class="text-center text-primary"> {{numberStudent}} Student(s) </h1>    
+        </div>
+        
+        <!-- ID Card start -->
+        <div class="row d-flex justify-content-center bg-dark">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-5 card align-self-center bg-white border-0 mx-1 mb-3" v-for="(x,key) in students"
+            style="width: 100%;">
+
+                <div class="d-flex justify-content-end">
+                    <button @click="removeStudent(key)" class="text-right border-0 btn btn-danger">
+                        <h3>&times;</h3>
+                    </button>
+                </div>
+                <div class="card-header bg-white border-0 d-flex" style="flex-direction: row;">
+                    
+                    <div class="row text-white" style="width: 100%;">
+                        <!-- Picture of the student -->
+                        <div class="col-4">
+                            <img :src="x.pic" 
+                            class="img-fluid rounded-circle"
+                            style="width: 150px; height: 100px;" />
+                        </div>
+                        <!-- End picture of the student -->
+                        
+                        <!-- Name of the University -->
+                        <div class="col-8 text-center">
+                            <h1 class="text-blue display-4"><u>Kirwood</u></h1>
+                            <h5 class="text-blue">COMMUNITY&nbsp;COLLEGE</h5>
+                        </div>
+                        <!-- ENd Name of University -->
+
+                    </div>
+                </div>
+                <div class="card-body bg-white border-0 d-flex" style="flex-direction: row;">
+                    <div class="row" style="width: 100%;">
+                        <div class="col-12">
+                            <h3>{{x.name}}</h3>
+                            <h6><b>STUDENT</b></h6>
+                            <h6><b>{{x.k_number}}</b></h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End ID Card  -->
+
+    </div>
+
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script>
+
+        var vm = new Vue ({
+            el: "#App",
+            data:{
+                students:[
+                    {
+                        k_number:'k0147852545',
+                        name:'Li Chun',
+                        pic: 'https://travel.state.gov/content/dam/passports/photo_examples/_MG_3425_GOOD.png/jcr:content/renditions/original'
+                    },
+                    {
+                        k_number:'k0874569214',
+                        name:'Jordan Vilanoc',
+                        pic: 'https://tasherstudio.com/wp-content/uploads/2017/03/DSC03fx-400x400.jpg'
+                    },
+                    {
+                        k_number:'k0547841120',
+                        name:'Baron Livic',
+                        pic: 'http://thispix.com/wp-content/uploads/2015/06/passport-019.jpg'
+                    },
+                    {
+                        k_number:'k0754575476',
+                        name:'Ketshia Manille',
+                        pic: 'https://st3.depositphotos.com/6462898/17953/i/450/depositphotos_179530926-stock-photo-passport-picture-asian-young-woman.jpg'
+                    },
+                    {
+                        k_number:'k0841245784',
+                        name:'Deshawn Karner',
+                        pic: 'https://media.istockphoto.com/photos/passport-portrait-of-african-woman-with-serious-expression-picture-id947193028?k=6&m=947193028&s=170667a&w=0&h=uow3bnXvf_yC9qbLSPTXKQvGMAqgD6pvBm6tN8zqqTU='
+                    }
+                ],
+                firstname:'',
+                lastname:'',
+                pic:'data:image/png;base64,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'
+            },
+            computed:{
+                numberStudent(){
+                    return this.students.length;
+                }
+            },
+            methods:{
+                removeStudent(key){
+                    return vm.students.splice(key,1);
+                },
+                insertStudent(){
+                    var filename = document.getElementById('picture').value;
+                    var id = '';
+
+                    while (id.length<8){
+                        var b = Math.floor((Math.random() * 100000));
+                        id += b;
+                    }
+                    var a = {
+                            k_number: 'k0' + id.slice(0,8),
+                            name: vm.firstname + " " + vm.lastname,
+                            pic: vm.pic
+                        };
+                    vm.students.unshift(a);
+                }
+            }
+        });
+
+        
+        
+    </script>
